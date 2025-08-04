@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 import menu.submenu.*;
+import utils.AuditTrailUtils;
 
 public class AdminMenu {
     private final Scanner scanner;
@@ -35,7 +36,10 @@ public class AdminMenu {
                 case "5": new UserAccessMenu().show(); break;
                 case "6": new AuditMenu().show(); break;
                 case "7": new ReportsMenu().show(); break;
-                case "0": System.out.println("Logging out..."); return;
+                case "0":
+                    AuditTrailUtils.logAction("User log out");
+                    System.out.println("Logging out...");
+                    return;
                 default: System.out.println("\u274C Invalid choice.");
             }
         }

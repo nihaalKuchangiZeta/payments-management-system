@@ -3,6 +3,7 @@ package menu;
 import java.sql.SQLException;
 import java.util.Scanner;
 import menu.submenu.*;
+import utils.AuditTrailUtils;
 
 public class ViewerMenu {
     private final Scanner scanner;
@@ -41,6 +42,7 @@ public class ViewerMenu {
                     new ReportsMenu().show(); // assuming same ReportsMenu is shared
                     break;
                 case "0":
+                    AuditTrailUtils.logAction("User log out");
                     System.out.println("Logging out...");
                     return;
                 default:

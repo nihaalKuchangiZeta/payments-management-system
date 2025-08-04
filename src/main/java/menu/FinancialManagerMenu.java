@@ -3,6 +3,7 @@ package menu;
 import java.sql.SQLException;
 import java.util.Scanner;
 import menu.submenu.*;
+import utils.AuditTrailUtils;
 
 public class FinancialManagerMenu {
     private final Scanner scanner;
@@ -31,6 +32,7 @@ public class FinancialManagerMenu {
                 case "4": new ClientMenu().show(); break;
                 case "5": new ReportsMenu().show(); break;
                 case "6":
+                    AuditTrailUtils.logAction("User log out");
                     System.out.println("Logging out...");
                     return;
                 default:

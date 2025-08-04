@@ -1,7 +1,6 @@
 package menu;
 
 import model.User;
-
 import java.sql.SQLException;
 
 public class MenuRouter {
@@ -11,21 +10,19 @@ public class MenuRouter {
         try {
             switch (role) {
                 case "admin":
-                    AdminMenu adminMenu = new AdminMenu();
-                    adminMenu.show();
+                    new AdminMenu().show();
                     break;
                 case "viewer":
-                    ViewerMenu viewerMenu = new ViewerMenu();
-                    viewerMenu.show();
+                    new ViewerMenu().show();
                     break;
                 case "financialmanager":
-                    FinancialManagerMenu financialManagerMenu = new FinancialManagerMenu();
-                    financialManagerMenu.show();
+                    new FinancialManagerMenu().show();
                     break;
                 default:
-                    System.out.println("Unknown role: " + role);
+                    System.out.println("❌ Unknown role: " + role);
             }
         } catch (SQLException e) {
+            System.out.println("⚠️ Database error occurred.");
             e.printStackTrace();
         }
     }
