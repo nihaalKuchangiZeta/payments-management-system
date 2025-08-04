@@ -17,8 +17,9 @@ public class MenuRouter {
                 case "viewer":
                     //ViewerMenu.show();
                     break;
-                case "finance manager":
-                    //FinanceManagerMenu.show();
+                case "financialmanager":
+                    FinancialManagerMenu financialManagerMenu = new FinancialManagerMenu();
+                    financialManagerMenu.show();
                     break;
                 default:
                     System.out.println("Unknown role: " + role);
