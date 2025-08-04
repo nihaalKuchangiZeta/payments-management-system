@@ -5,19 +5,22 @@ A command-line based fintech application designed for internal payment operation
 ## 📁 Project Structure
 
 ```plaintext
+Payments Management System/
+├── pom.xml                    # Maven build file
 ├── src/
 │   ├── main/
 │   │   ├── java/
-│   │   │   ├── menu/                # CLI Menus (Presentation Layer)
-│   │   │   ├── service/             # Business Logic (Service Layer)
-│   │   │   ├── dao/                 # Database Access (Data Access Layer)
-│   │   │   ├── model/               # Entity Classes
-│   │   │   └── util/                # Configs, Common Utilities
-│   └── resources/
-│       └── application.properties   # DB Connection Properties
-├── scripts/
-│   └── schema.sql                   # PostgreSQL Schema
-├── pom.xml                          # Maven Config
-└── README.md                        # Project Documentation
+│   │   │   ├── model/         # Domain models (User, Employee, Payment, etc.)
+│   │   │   ├── dao/           # DAO classes for database operations
+│   │   │   ├── service/       # Business logic and service layer
+│   │   │   ├── utils/         # Common utilities (DBUtil, Validators, etc.)
+│   │   │   ├── menu/          # CLI Menus (AdminMenu, ViewerMenu, etc.)
+│   │   │   └── Main.java      # Entry point
+│   │   └── resources/
+│   │       ├── database_schema.sql # PostgreSQL schema
+│   │       └── db.config      # DB connection config
+│   └── test/
+│       └── java/              # Unit tests (to be implemented)
+└── target/                    # Compiled classes and build artifactsn
 
 
