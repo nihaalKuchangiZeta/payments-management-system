@@ -39,4 +39,25 @@ public class ClientMenu {
             }
         }
     }
+
+    public void showViewOnly() {
+        while (true) {
+            System.out.println("\n📋 --- View Clients (Read-Only) ---");
+            System.out.println("1. View Clients");
+            System.out.println("0. Back to Main Menu");
+            System.out.print("Select an option: ");
+
+            String choice = scanner.nextLine().trim();
+            switch (choice) {
+                case "1":
+                    clientService.viewClients();
+                    break;
+                case "0":
+                    return;
+                default:
+                    System.out.println("❌ Invalid option. Please try again.");
+                    break;
+            }
+        }
+    }
 }

@@ -39,4 +39,25 @@ public class VendorMenu {
             }
         }
     }
+
+    public void showViewOnly() {
+        while (true) {
+            System.out.println("\n📋 --- View Vendors (Read-Only) ---");
+            System.out.println("1. View Vendors");
+            System.out.println("0. Back to Main Menu");
+            System.out.print("Select an option: ");
+
+            String choice = scanner.nextLine().trim();
+            switch (choice) {
+                case "1":
+                    vendorService.viewVendors();
+                    break;
+                case "0":
+                    return;
+                default:
+                    System.out.println("❌ Invalid option. Please try again.");
+                    break;
+            }
+        }
+    }
 }

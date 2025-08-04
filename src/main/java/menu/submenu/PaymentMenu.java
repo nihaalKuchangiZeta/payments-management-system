@@ -1,6 +1,5 @@
 package menu.submenu;
 
-import model.Payment;
 import service.PaymentService;
 
 import java.sql.SQLException;
@@ -52,6 +51,39 @@ public class PaymentMenu {
                 System.err.println("❌ Invalid number format: " + e.getMessage());
             } catch (IllegalArgumentException e) {
                 System.err.println("❌ Invalid input: " + e.getMessage());
+            } catch (Exception e) {
+                System.err.println("❌ An unexpected error occurred: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void showViewOnly() {
+        while (true) {
+            System.out.println("\n📄 === View Payments (Read-Only) ===");
+            System.out.println("1. View All Payments");
+            System.out.println("2. Search Payments by ID / Category / Date / Status");
+            System.out.println("0. Back");
+            System.out.print("Select an option: ");
+
+            String choice = scanner.nextLine();
+
+            try {
+                switch (choice) {
+                    case "1":
+                        paymentService.viewAllPayments();
+                        break;
+                    case "2":
+                        paymentService.searchPayments();
+                        break;
+                    case "0":
+                        return;
+                    default:
+                        System.out.println("❌ Invalid choice.");
+                }
+            } catch (SQLException e) {
+                System.err.println("❌ Database error occurred: " + e.getMessage());
+                e.printStackTrace();
             } catch (Exception e) {
                 System.err.println("❌ An unexpected error occurred: " + e.getMessage());
                 e.printStackTrace();

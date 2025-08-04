@@ -15,7 +15,8 @@ public class MenuRouter {
                     adminMenu.show();
                     break;
                 case "viewer":
-                    //ViewerMenu.show();
+                    ViewerMenu viewerMenu = new ViewerMenu();
+                    viewerMenu.show();
                     break;
                 case "financialmanager":
                     FinancialManagerMenu financialManagerMenu = new FinancialManagerMenu();
