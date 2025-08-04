@@ -2,7 +2,7 @@ package service;
 
 import dao.AuditTrailDao;
 import model.AuditTrail;
-import org.json.JSONObject;
+import utils.DateValidator;
 
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
@@ -38,8 +38,11 @@ public class AuditTrailService {
         String endDate = input.nextLine().trim();
 
         // Basic date format validation
-        if (!isValidDateFormat(startDate) || !isValidDateFormat(endDate)) {
+        if (!DateValidator.isValidDateFormat(startDate) || !DateValidator.isValidDateFormat(endDate)) {
             System.out.println("❌ Invalid date format. Please use YYYY-MM-DD format.");
+            return;
+        } else if (!DateValidator.isValidDateRange(startDate,endDate)) {
+            System.out.println("❌ Invalid date range");
             return;
         }
 
@@ -162,19 +165,4 @@ public class AuditTrailService {
         System.out.println("Total logs: " + logs.size());
     }
 
-    private boolean isValidDateFormat(String date) {
-        if (date.length() != 10) return false;
-        String[] parts = date.split("-");
-        if (parts.length != 3) return false;
-
-        try {
-            int year = Integer.parseInt(parts[0]);
-            int month = Integer.parseInt(parts[1]);
-            int day = Integer.parseInt(parts[2]);
-
-            return year > 1900 && year < 3000 && month >= 1 && month <= 12 && day >= 1 && day <= 31;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-    }
 }

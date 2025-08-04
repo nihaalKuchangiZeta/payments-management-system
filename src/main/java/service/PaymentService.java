@@ -8,6 +8,7 @@ import utils.AuditTrailUtils;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
+import utils.DateValidator;
 
 public class PaymentService {
     private final PaymentDao paymentDao = new PaymentDao();
@@ -131,7 +132,7 @@ public class PaymentService {
     }
 
     public void searchPayments() throws SQLException {
-        System.out.print("Search by (1) ID, (2) Category, (3) Status: ");
+        System.out.print("Search by (1) ID, (2) Category, (3) Status, (4) Date Range: ");
         String option = scanner.nextLine().trim();
 
         switch (option) {
@@ -140,23 +141,76 @@ public class PaymentService {
                 String pid = scanner.nextLine().trim();
                 Payment p = paymentDao.getPaymentById(pid);
                 if (p != null) {
-                    System.out.println("Found: " + p.getPid() + ", " + p.getCategory() + ", Rs." + p.getAmount());
+                    System.out.println("PID: " + p.getPid() + ", Type: " + p.getType() + ", Category: " + p.getCategory() +
+                            ", CounterPartyID: " + p.getCounterPartyId() + ", Amount: " + p.getAmount() +
+                            ", Status: " + p.getPaymentStatus());
                 } else {
                     System.out.println("❌ No record found.");
                 }
                 break;
+
             case "2":
                 System.out.print("Enter Category: ");
                 String cat = scanner.nextLine().trim();
                 List<Payment> byCat = paymentDao.getPaymentsByCategory(cat);
-                byCat.forEach(payment -> System.out.println(payment.getPid() + " | " + payment.getCategory()));
+                if (byCat.isEmpty()) {
+                    System.out.println("❌ No payments found for category: " + cat);
+                } else {
+                    System.out.println("\n=== Payments by Category: " + cat + " ===");
+                    for (Payment payment : byCat) {
+                        System.out.println("PID: " + payment.getPid() + ", Type: " + payment.getType() + ", Category: " + payment.getCategory() +
+                                ", CounterPartyID: " + payment.getCounterPartyId() + ", Amount: " + payment.getAmount() +
+                                ", Status: " + payment.getPaymentStatus());
+                    }
+                }
                 break;
+
             case "3":
                 System.out.print("Enter Status: ");
                 String status = scanner.nextLine().trim();
                 List<Payment> byStatus = paymentDao.getPaymentsByStatus(status);
-                byStatus.forEach(payment -> System.out.println(payment.getPid() + " | " + payment.getPaymentStatus()));
+                if (byStatus.isEmpty()) {
+                    System.out.println("❌ No payments found with status: " + status);
+                } else {
+                    System.out.println("\n=== Payments by Status: " + status + " ===");
+                    for (Payment payment : byStatus) {
+                        System.out.println("PID: " + payment.getPid() + ", Type: " + payment.getType() + ", Category: " + payment.getCategory() +
+                                ", CounterPartyID: " + payment.getCounterPartyId() + ", Amount: " + payment.getAmount() +
+                                ", Status: " + payment.getPaymentStatus());
+                    }
+                }
                 break;
+
+            case "4":
+                System.out.print("Enter Start Date (YYYY-MM-DD): ");
+                String startDate = scanner.nextLine().trim();
+
+                if (!DateValidator.isValidDateFormat(startDate)) {
+                    System.out.println("❌ Invalid start date format. Please use YYYY-MM-DD format.");
+                    break;
+                }
+
+                System.out.print("Enter End Date (YYYY-MM-DD): ");
+                String endDate = scanner.nextLine().trim();
+
+                if (!DateValidator.isValidDateFormat(endDate)) {
+                    System.out.println("❌ Invalid end date format. Please use YYYY-MM-DD format.");
+                    break;
+                }
+
+                List<Payment> byDateRange = paymentDao.getPaymentsByDateRange(startDate, endDate);
+                if (byDateRange.isEmpty()) {
+                    System.out.println("❌ No payments found between " + startDate + " and " + endDate);
+                } else {
+                    System.out.println("\n=== Payments from " + startDate + " to " + endDate + " ===");
+                    for (Payment payment : byDateRange) {
+                        System.out.println("PID: " + payment.getPid() + ", Type: " + payment.getType() + ", Category: " + payment.getCategory() +
+                                ", CounterPartyID: " + payment.getCounterPartyId() + ", Amount: " + payment.getAmount() +
+                                ", Status: " + payment.getPaymentStatus());
+                    }
+                }
+                break;
+
             default:
                 System.out.println("❌ Invalid option.");
         }

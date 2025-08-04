@@ -156,6 +156,30 @@ public class PaymentDao {
         return payments;
     }
 
+    public List<Payment> getPaymentsByDateRange(String startDate, String endDate) {
+        List<Payment> payments = new ArrayList<>();
+        String sql = "SELECT * FROM Payments WHERE DATE(timestamp) BETWEEN ? AND ? ORDER BY timestamp";
+
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setDate(1, Date.valueOf(startDate));
+            stmt.setDate(2, Date.valueOf(endDate));
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                payments.add(mapResultSetToPayment(rs));
+            }
+
+        } catch (SQLException e) {
+            System.err.println("❌ Failed to fetch payments by date range: " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            System.err.println("❌ Invalid date format provided: " + e.getMessage());
+        }
+
+        return payments;
+    }
+
     private Payment mapResultSetToPayment(ResultSet rs) throws SQLException {
         Payment p = new Payment(
                 rs.getString("type"),
